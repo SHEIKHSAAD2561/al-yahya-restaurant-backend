@@ -4,13 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository layout
 
-This repo currently contains a single project: `backend/`, a NestJS (TypeScript) application. It is a nested git repository (has its own `.git`), so treat it as the working root for backend commands — run all commands below from inside `backend/`.
-
-The backend is presently an unmodified `nest new` scaffold (default `AppController`/`AppService` returning "Hello World!", no database, no additional modules, no auth). There is no frontend in this repo yet.
+This repo is the NestJS (TypeScript) backend itself — there is no separate `backend/` subfolder; `src/`, `test/`, and `package.json` live at the repo root. There is no frontend in this repo yet.
 
 ## Commands
 
-Run from `backend/`:
+Run from the repo root:
 
 - `npm run start:dev` — run the server in watch mode (default port 3001, overridable via `PORT` env var; see `src/main.ts`)
 - `npm run start` — run without watch
