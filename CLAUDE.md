@@ -4,35 +4,56 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository layout
 
-This repo is the NestJS (TypeScript) backend itself — there is no separate `backend/` subfolder; `src/`, `test/`, and `package.json` live at the repo root. There is no frontend in this repo yet.
+This repo is the NestJS (TypeScript) backend itself — `src/`, `test/`, and `package.json` live at the repo root. The frontend is a sibling repo at `../al-yahya-restaurant-frontend` (see that repo's own CLAUDE.md); this backend has no knowledge of it beyond `APP_URL` (see Environment below).
+
+Single-tenant: this serves exactly one restaurant. No multi-tenancy, no per-company scoping anywhere in the schema.
 
 ## Commands
 
 Run from the repo root:
 
-- `npm run start:dev` — run the server in watch mode (default port 3001, overridable via `PORT` env var; see `src/main.ts`)
-- `npm run start` — run without watch
-- `npm run start:debug` — watch mode with debugger attached
-- `npm run build` — compile with `nest build` (output to `dist/`)
-- `npm run start:prod` — run the compiled build (`node dist/main`)
-- `npm run lint` — ESLint with `--fix` over `src`, `apps`, `libs`, `test`
-- `npm run format` — Prettier `--write` over `src/**/*.ts` and `test/**/*.ts`
-- `npm run test` — unit tests (Jest, matches `*.spec.ts` under `src/`)
-  - single test file: `npm run test -- app.controller.spec.ts`
-  - by name: `npm run test -- -t "test name"`
-- `npm run test:watch` — unit tests in watch mode
-- `npm run test:cov` — unit tests with coverage report (`coverage/`)
-- `npm run test:e2e` — e2e tests (separate Jest config at `test/jest-e2e.json`)
+- `npm run start:dev` — watch mode (port 3001, overridable via `PORT`)
+- `npm run build` — compile with `nest build` → `dist/`
+- `npm run start:prod` — run the compiled build
+- `npm run lint` / `npm run format`
+- `npm run test` (Jest, `*.spec.ts`) — single file: `npm run test -- app.controller.spec.ts`; by name: `npm run test -- -t "test name"`
+- `npm run test:e2e`
+
+Database (TypeORM migrations — `DB_SYNCHRONIZE` is `false`, schema changes always go through a migration, never auto-sync):
+- `npm run migration:generate -- src/database/migrations/DescriptiveName` — diffs entities against the DB and writes a migration. **Check the generated file before running it** — for anything already holding data, prefer rewriting a generated `DROP COLUMN`+`ADD COLUMN` pair into an in-place `MODIFY COLUMN` (TypeORM's generator defaults to the destructive form even for a plain type-widening change).
+- `npm run migration:run`
+- `npm run seed` — idempotent (upserts by unique key): loads the full permission catalog, the 6 system roles, grants Super Admin/Admin every permission, and bootstraps the initial Super Admin user from `SUPER_ADMIN_*` env vars (only if that email doesn't already exist). Safe to re-run any time the permission catalog changes — never touches a role's already-configured permissions for non-system roles.
 
 ## Architecture
 
-Standard NestJS module structure:
+Standard NestJS module structure under `src/modules/`: `auth`, `users`, `roles`, `permissions`, `locations`, `mail`. `src/common/` holds cross-cutting guards/decorators; `src/database/` holds the data source, migrations, and `seed.ts`.
 
-- `src/main.ts` — bootstraps the app via `NestFactory.create(AppModule)`, listens on `process.env.PORT ?? 3001`.
-- `src/app.module.ts` — root module; wires controllers/providers together. New feature modules should be registered here (or nested under their own modules and imported here).
-- `src/app.controller.ts` / `src/app.service.ts` — the default controller/service pair; NestJS's standard dependency-injection pattern (controllers handle routing, services hold logic, injected via constructor).
+### Auth & sessions
 
-Config notes:
-- TypeScript target is ES2023, module resolution `nodenext`, decorators enabled (`experimentalDecorators`, `emitDecoratorMetadata`) — required for NestJS's decorator-based DI.
-- ESLint uses `typescript-eslint`'s `recommendedTypeChecked` plus `eslint-plugin-prettier`; `no-explicit-any` is turned off, `no-floating-promises` and `no-unsafe-argument` are warnings (not errors).
-- Prettier: single quotes, trailing commas everywhere (`.prettierrc`).
+JWT access token (short-lived, `JWT_ACCESS_EXPIRES_IN`) + rotating opaque refresh token (raw random token, only its hash stored in `refresh_tokens`; reuse of an already-rotated token revokes every session for that user — theft detection). The access token payload is deliberately minimal (`{sub}` only) — role/permissions are always resolved fresh from the DB in `JwtStrategy.validate()` via `UsersService.findAuthProfile()`, never cached in the token itself.
+
+`GET /auth/me` returns the caller's profile (id/name/role/permissionCodes) — this is what the frontend's BFF calls right after login to build its own session cookie; nothing else in this backend depends on it.
+
+Password reset and first-time invitation share one mechanism: `User.passwordResetTokenHash`/`passwordResetTokenExpiresAt` + `POST /auth/accept-invitation {token, password}` consumes it either way (`UsersService.setPassword` activates a PENDING user or just updates an ACTIVE one's password — same code path). `POST /auth/forgot-password` only *issues* a fresh token for an existing ACTIVE user; it always returns success regardless of whether the email exists, to avoid account enumeration.
+
+### RBAC model
+
+One role per user (`User.roleId`, not an array — this is intentional, not a v1 limitation). `RoleType` is `SUPER_ADMIN | ADMIN | DEFAULT | CUSTOM`. `PermissionsGuard` (`common/guards/permissions.guard.ts`) is deliberately dumb — it only ever compares `request.user.permissionCodes` against `@RequirePermissions(...)` metadata; Super Admin/Admin pass because they're *seeded* with every permission code (by `seed.ts`), not because the guard special-cases their role type. All the "who can do what to which role" business rules (only Super Admin creates/deletes CUSTOM roles, Admin/Super Admin's own permissions can't be edited, etc.) live in `RolesService`, not the guard — read the comment at the top of that file before changing role-related authorization.
+
+**Permission catalog vs. enforcement — these are deliberately decoupled.** `permission-catalog.ts` lists the *full* target permission set for every module (POS, Customers, Products, Stock, Purchases & Suppliers, Expenses, Accounting, Dashboard, Reports, Settings — 65 permissions total as of the last catalog update), matching the intended final product design. Most of these are **not enforced anywhere yet** — `@RequirePermissions()` only guards routes that actually exist (currently: users, roles, permissions, locations). A permission existing in the catalog and being toggleable in the frontend's Roles & Permissions UI does not imply its feature is built; it becomes real only when that module's endpoints are built and start checking it. Don't treat an unguarded permission as a bug — check whether the corresponding feature module exists first.
+
+### TypeORM gotcha (real bug, already fixed once — don't reintroduce it)
+
+Entities that have **both** a raw `@Column()` for a foreign key and a `@ManyToOne` + `@JoinColumn` relation mapped to that same column (e.g. `User.roleId` + `User.role`) must keep both in sync when mutating. If a relation is eager-loaded (or was joined by an earlier `findOne`) and you only reassign the raw FK column (`user.roleId = newId`), TypeORM's `save()` persists based on the **loaded relation object**, not the raw column, and silently writes back the *old* value. Always update both together: `user.roleId = newId; user.role = newRoleEntity;`. This bit `UsersService.update()` for role reassignment; check any future direct FK mutation on an entity with a paired eager relation for the same issue.
+
+### i18n
+
+`nestjs-i18n`, catalogs under `src/i18n/{en,ar}/*.json` (one file per module: `auth`, `users`, `roles`, `locations`, `validation`). Resolved via `?lang=`, `x-lang` header, or `Accept-Language` — the frontend always sends `x-lang` explicitly. When adding a new user-facing error message, add both locale entries; don't hardcode English strings in a service (a few older ones exist as tech debt, e.g. some `BadRequestException` messages — don't copy that pattern for new code).
+
+### Environment gotcha
+
+`APP_URL` is the **frontend's** URL, not this API's — it's used only to build links inside emails (invite/reset) that a browser opens against the Next.js app, not this server. Mixing this up breaks every email link (this happened once already).
+
+### Naming
+
+`User` and `Role` both have bilingual `nameEn`/`nameAr` columns, not a single `name`. `Location` has a single `name` plus `isDefault` (`LocationsService` enforces exactly one default at a time; deleting the default location is rejected).

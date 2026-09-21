@@ -1,0 +1,10 @@
+{
+  "NOT_EMPTY": "{property} should not be empty.",
+  "IS_EMAIL": "{property} must be a valid email address.",
+  "IS_STRING": "{property} must be text.",
+  "IS_UUID": "{property} must be a valid identifier.",
+  "IS_ENUM": "{property} must be one of the allowed values.",
+  "IS_BOOLEAN": "{property} must be true or false.",
+  "MIN_LENGTH": "{property} must be at least {constraint1} characters long.",
+  "IS_PHONE_NUMBER": "{property} must be a valid phone number."
+}

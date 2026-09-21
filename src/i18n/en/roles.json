@@ -1,0 +1,8 @@
+{
+  "not_found": "Role not found.",
+  "name_already_exists": "A role with this name already exists.",
+  "cannot_modify_locked_role": "This role's permissions cannot be modified.",
+  "cannot_delete_system_role": "This role cannot be deleted.",
+  "only_super_admin_can_create": "Only the Super Admin can create custom roles.",
+  "only_super_admin_can_delete": "Only the Super Admin can delete roles."
+}

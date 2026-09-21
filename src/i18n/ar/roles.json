@@ -1,0 +1,8 @@
+{
+  "not_found": "الدور غير موجود.",
+  "name_already_exists": "يوجد دور بهذا الاسم بالفعل.",
+  "cannot_modify_locked_role": "لا يمكن تعديل صلاحيات هذا الدور.",
+  "cannot_delete_system_role": "لا يمكن حذف هذا الدور.",
+  "only_super_admin_can_create": "المدير الأعلى فقط يمكنه إنشاء أدوار مخصصة.",
+  "only_super_admin_can_delete": "المدير الأعلى فقط يمكنه حذف الأدوار."
+}

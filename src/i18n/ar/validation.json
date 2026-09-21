@@ -1,0 +1,10 @@
+{
+  "NOT_EMPTY": "حقل {property} لا يجب أن يكون فارغًا.",
+  "IS_EMAIL": "يجب أن يكون حقل {property} بريدًا إلكترونيًا صالحًا.",
+  "IS_STRING": "يجب أن يكون حقل {property} نصًا.",
+  "IS_UUID": "يجب أن يكون حقل {property} معرّفًا صالحًا.",
+  "IS_ENUM": "يجب أن يكون حقل {property} إحدى القيم المسموح بها.",
+  "IS_BOOLEAN": "يجب أن يكون حقل {property} صحيحًا أو خطأ.",
+  "MIN_LENGTH": "يجب ألا يقل حقل {property} عن {constraint1} حرفًا.",
+  "IS_PHONE_NUMBER": "يجب أن يكون حقل {property} رقم هاتف صالحًا."
+}

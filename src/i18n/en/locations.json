@@ -1,0 +1,4 @@
+{
+  "not_found": "Location not found.",
+  "cannot_delete_default": "The default location can't be deleted — set another location as default first."
+}
