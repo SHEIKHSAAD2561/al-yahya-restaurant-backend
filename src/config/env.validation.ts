@@ -98,6 +98,18 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   SUPER_ADMIN_PHONE?: string;
+
+  @IsString()
+  FIREBASE_PROJECT_ID: string;
+
+  @IsString()
+  FIREBASE_CLIENT_EMAIL: string;
+
+  @IsString()
+  FIREBASE_PRIVATE_KEY: string;
+
+  @IsString()
+  FIREBASE_STORAGE_BUCKET: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

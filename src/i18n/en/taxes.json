@@ -1,0 +1,5 @@
+{
+  "not_found": "Tax not found.",
+  "system_tax_not_editable": "System taxes can't be edited.",
+  "status_not_changeable": "This tax's status can't be changed."
+}

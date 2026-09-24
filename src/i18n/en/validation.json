@@ -6,5 +6,10 @@
   "IS_ENUM": "{property} must be one of the allowed values.",
   "IS_BOOLEAN": "{property} must be true or false.",
   "MIN_LENGTH": "{property} must be at least {constraint1} characters long.",
-  "IS_PHONE_NUMBER": "{property} must be a valid phone number."
+  "IS_PHONE_NUMBER": "{property} must be a valid phone number.",
+  "IS_URL": "{property} must be a valid URL.",
+  "IS_NUMBER": "{property} must be a number.",
+  "MIN": "{property} must not be less than {constraint1}.",
+  "MAX": "{property} must not be greater than {constraint1}.",
+  "ARRAY_MIN_SIZE": "{property} must contain at least {constraint1} item(s)."
 }

@@ -160,6 +160,10 @@ export class UsersService {
   async update(id: string, dto: UpdateUserDto): Promise<User> {
     const user = await this.findOneOrFail(id);
 
+    if (dto.roleId && user.role.type === RoleType.SUPER_ADMIN) {
+      throw new ForbiddenException(this.t('users.cannot_modify_super_admin'));
+    }
+
     if (dto.roleId) {
       const role = await this.rolesService.findEntityById(dto.roleId);
       if (!role) {
@@ -191,6 +195,10 @@ export class UsersService {
 
   async updateStatus(id: string, dto: UpdateUserStatusDto): Promise<User> {
     const user = await this.findOneOrFail(id);
+
+    if (user.role.type === RoleType.SUPER_ADMIN) {
+      throw new ForbiddenException(this.t('users.cannot_modify_super_admin'));
+    }
 
     if (user.status === UserStatus.PENDING && dto.status === UserStatus.ACTIVE) {
       throw new BadRequestException(

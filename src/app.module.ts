@@ -23,6 +23,8 @@ import { UsersModule } from './modules/users/users.module';
 import { LocationsModule } from './modules/locations/locations.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
+import { CompanyModule } from './modules/company/company.module';
+import { TaxesModule } from './modules/taxes/taxes.module';
 
 @Module({
   imports: [
@@ -73,6 +75,8 @@ import { MailModule } from './modules/mail/mail.module';
     LocationsModule,
     AuthModule,
     MailModule,
+    CompanyModule,
+    TaxesModule,
   ],
   controllers: [AppController],
   providers: [

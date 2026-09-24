@@ -23,6 +23,12 @@ export class Role {
   @Column({ type: 'varchar', length: 100 })
   nameAr: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  descriptionEn: string | null;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  descriptionAr: string | null;
+
   @Index()
   @Column({ type: 'enum', enum: RoleType, default: RoleType.CUSTOM })
   type: RoleType;

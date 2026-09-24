@@ -64,6 +64,30 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
     descriptionEn: 'Checkout using post payment method',
     descriptionAr: 'الدفع باستخدام طريقة الدفع الآجل',
   },
+  {
+    module: PermissionModule.POS,
+    code: 'pos.manage_digital_menu',
+    descriptionEn: 'User can view and manage the digital menu',
+    descriptionAr: 'يمكن للمستخدم عرض وإدارة القائمة الرقمية',
+  },
+  {
+    module: PermissionModule.POS,
+    code: 'pos.view_sale_invoices',
+    descriptionEn: 'User can view sale invoices',
+    descriptionAr: 'يمكن للمستخدم عرض فواتير المبيعات',
+  },
+  {
+    module: PermissionModule.POS,
+    code: 'pos.manage_promotions',
+    descriptionEn: 'User can create and manage promotions',
+    descriptionAr: 'يمكن للمستخدم إنشاء وإدارة العروض الترويجية',
+  },
+  {
+    module: PermissionModule.POS,
+    code: 'pos.manage_sale_settings',
+    descriptionEn: 'User can view and manage point of sale settings',
+    descriptionAr: 'يمكن للمستخدم عرض وإدارة إعدادات نقطة البيع',
+  },
 
   // Customers
   {
@@ -165,6 +189,18 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
     code: 'products.print_barcode',
     descriptionEn: 'User can print barcode labels for products',
     descriptionAr: 'يمكن للمستخدم طباعة ملصقات الباركود للمنتجات',
+  },
+  {
+    module: PermissionModule.PRODUCTS,
+    code: 'products.manage_categories',
+    descriptionEn: 'User can create, edit, and delete product categories',
+    descriptionAr: 'يمكن للمستخدم إنشاء وتعديل وحذف فئات المنتجات',
+  },
+  {
+    module: PermissionModule.PRODUCTS,
+    code: 'products.manage_modifiers',
+    descriptionEn: 'User can create, edit, and delete product modifiers',
+    descriptionAr: 'يمكن للمستخدم إنشاء وتعديل وحذف إضافات المنتجات',
   },
 
   // Stock
@@ -292,6 +328,18 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
     code: 'accounting.access',
     descriptionEn: 'Allow user to view chart of accounts',
     descriptionAr: 'السماح للمستخدم بعرض دليل الحسابات',
+  },
+  {
+    module: PermissionModule.ACCOUNTING,
+    code: 'accounting.view_setup_guide',
+    descriptionEn: 'User can view the accounting setup guide',
+    descriptionAr: 'يمكن للمستخدم عرض دليل إعداد المحاسبة',
+  },
+  {
+    module: PermissionModule.ACCOUNTING,
+    code: 'accounting.manage_fixed_assets',
+    descriptionEn: 'User can create, edit, and dispose of fixed assets',
+    descriptionAr: 'يمكن للمستخدم إنشاء وتعديل والتصرف في الأصول الثابتة',
   },
   {
     module: PermissionModule.ACCOUNTING,

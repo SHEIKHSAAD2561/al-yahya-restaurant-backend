@@ -24,6 +24,11 @@ import { parseDurationToMs } from '../../common/utils/duration.util';
 export interface TokenPair {
   accessToken: string;
   refreshToken: string;
+  /** ISO timestamp — when the refresh token itself expires. Once this
+   * passes, no more silent access-token refreshes are possible and the user
+   * must log in again; the frontend's session-expiry warning schedules
+   * against this, not the (silently, invisibly renewed) access token. */
+  refreshTokenExpiresAt: string;
 }
 
 interface IssuedTokenPair extends TokenPair {
@@ -71,8 +76,12 @@ export class AuthService {
     }
 
     await this.usersService.touchLastLogin(user.id);
-    const { accessToken, refreshToken } = await this.issueTokenPair(user.id, meta);
-    return { accessToken, refreshToken };
+    const pair = await this.issueTokenPair(user.id, meta);
+    return {
+      accessToken: pair.accessToken,
+      refreshToken: pair.refreshToken,
+      refreshTokenExpiresAt: pair.refreshTokenExpiresAt,
+    };
   }
 
   async refresh(rawRefreshToken: string, meta: RequestMetadata = {}): Promise<TokenPair> {
@@ -108,7 +117,11 @@ export class AuthService {
     existing.replacedByTokenId = pair.refreshTokenId;
     await this.refreshTokenRepository.save(existing);
 
-    return { accessToken: pair.accessToken, refreshToken: pair.refreshToken };
+    return {
+      accessToken: pair.accessToken,
+      refreshToken: pair.refreshToken,
+      refreshTokenExpiresAt: pair.refreshTokenExpiresAt,
+    };
   }
 
   async logout(userId: string, rawRefreshToken?: string): Promise<void> {
@@ -208,6 +221,11 @@ export class AuthService {
     });
     const saved = await this.refreshTokenRepository.save(refreshTokenRow);
 
-    return { accessToken, refreshToken: rawRefreshToken, refreshTokenId: saved.id };
+    return {
+      accessToken,
+      refreshToken: rawRefreshToken,
+      refreshTokenId: saved.id,
+      refreshTokenExpiresAt: expiresAt.toISOString(),
+    };
   }
 }

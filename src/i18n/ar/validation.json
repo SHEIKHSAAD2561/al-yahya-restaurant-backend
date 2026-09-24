@@ -6,5 +6,10 @@
   "IS_ENUM": "يجب أن يكون حقل {property} إحدى القيم المسموح بها.",
   "IS_BOOLEAN": "يجب أن يكون حقل {property} صحيحًا أو خطأ.",
   "MIN_LENGTH": "يجب ألا يقل حقل {property} عن {constraint1} حرفًا.",
-  "IS_PHONE_NUMBER": "يجب أن يكون حقل {property} رقم هاتف صالحًا."
+  "IS_PHONE_NUMBER": "يجب أن يكون حقل {property} رقم هاتف صالحًا.",
+  "IS_URL": "يجب أن يكون حقل {property} رابطًا صالحًا.",
+  "IS_NUMBER": "يجب أن يكون حقل {property} رقمًا.",
+  "MIN": "يجب ألا يقل حقل {property} عن {constraint1}.",
+  "MAX": "يجب ألا يزيد حقل {property} عن {constraint1}.",
+  "ARRAY_MIN_SIZE": "يجب أن يحتوي حقل {property} على {constraint1} عنصر على الأقل."
 }

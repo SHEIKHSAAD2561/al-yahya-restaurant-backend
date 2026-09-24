@@ -1,5 +1,6 @@
 {
   "not_found": "User not found.",
   "email_already_exists": "A user with this email already exists.",
-  "cannot_assign_super_admin": "The Super Admin role cannot be assigned through this API."
+  "cannot_assign_super_admin": "The Super Admin role cannot be assigned through this API.",
+  "cannot_modify_super_admin": "The Super Admin account's role and status can't be changed."
 }

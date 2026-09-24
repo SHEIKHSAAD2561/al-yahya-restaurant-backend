@@ -8,16 +8,110 @@ import { PERMISSION_CATALOG } from '../modules/permissions/permission-catalog';
 import { User } from '../modules/users/user.entity';
 import { UserStatus } from '../modules/users/user-status.enum';
 import { Language } from '../modules/users/language.enum';
+import { Tax } from '../modules/taxes/tax.entity';
+import { TaxLine } from '../modules/taxes/tax-line.entity';
+import { TaxType } from '../modules/taxes/tax-type.enum';
 
 const BCRYPT_ROUNDS = 12;
 
-const SYSTEM_ROLES: { type: RoleType; nameEn: string; nameAr: string }[] = [
-  { type: RoleType.SUPER_ADMIN, nameEn: 'Super Admin', nameAr: 'المدير الأعلى' },
-  { type: RoleType.ADMIN, nameEn: 'Admin', nameAr: 'المدير' },
-  { type: RoleType.DEFAULT, nameEn: 'Cashier', nameAr: 'أمين الصندوق' },
-  { type: RoleType.DEFAULT, nameEn: 'Store Manager', nameAr: 'مدير المتجر' },
-  { type: RoleType.DEFAULT, nameEn: 'Inventory Manager', nameAr: 'مدير المخزون' },
-  { type: RoleType.DEFAULT, nameEn: 'Accountant', nameAr: 'محاسب' },
+interface SystemTaxDefinition {
+  name: string;
+  code: string;
+  type: TaxType;
+  isActive: boolean;
+  hasCompoundTax: boolean;
+  compoundLabel?: string;
+  compoundRate?: number;
+  lines: { label: string | null; rate: number }[];
+}
+
+// Mirrors Rewaa's own KSA tax presets: the two baseline taxes are mandatory
+// (locked on, can't be turned off), the tobacco scheme is optional (starts
+// off, toggle-able). None of the three are editable — only their on/off
+// state can change, and only for the toggle-able one.
+const SYSTEM_TAXES: SystemTaxDefinition[] = [
+  {
+    name: 'Not Subject to Tax',
+    code: 'VATEX-SA-OOS',
+    type: TaxType.SYSTEM_LOCKED,
+    isActive: true,
+    hasCompoundTax: false,
+    lines: [{ label: null, rate: 0 }],
+  },
+  {
+    name: 'VAT',
+    code: 'S',
+    type: TaxType.SYSTEM_LOCKED,
+    isActive: true,
+    hasCompoundTax: false,
+    lines: [{ label: null, rate: 15 }],
+  },
+  {
+    name: 'VAT + Tobacco Tax',
+    code: 'ST',
+    type: TaxType.SYSTEM_TOGGLABLE,
+    isActive: false,
+    hasCompoundTax: true,
+    compoundLabel: 'VAT',
+    compoundRate: 15,
+    lines: [{ label: 'Tobacco Tax', rate: 100 }],
+  },
+];
+
+const SYSTEM_ROLES: {
+  type: RoleType;
+  nameEn: string;
+  nameAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
+}[] = [
+  {
+    type: RoleType.SUPER_ADMIN,
+    nameEn: 'Super Admin',
+    nameAr: 'المدير الأعلى',
+    descriptionEn: 'Has unrestricted access to every feature and setting, including managing other Admins.',
+    descriptionAr: 'يتمتع بصلاحية وصول كاملة وغير مقيدة إلى جميع الميزات والإعدادات، بما في ذلك إدارة المدراء الآخرين.',
+  },
+  {
+    type: RoleType.ADMIN,
+    nameEn: 'Admin',
+    nameAr: 'المدير',
+    descriptionEn:
+      'The Admin role has full control over the system, allowing for configuration and management of all settings.',
+    descriptionAr: 'يتمتع دور المدير بالتحكم الكامل في النظام، مما يتيح تكوين وإدارة جميع الإعدادات.',
+  },
+  {
+    type: RoleType.DEFAULT,
+    nameEn: 'Cashier',
+    nameAr: 'أمين الصندوق',
+    descriptionEn:
+      'The Cashier role is responsible for processing transactions and managing customer payments at the point of sale.',
+    descriptionAr: 'يتولى أمين الصندوق مسؤولية معالجة المعاملات وإدارة مدفوعات العملاء في نقطة البيع.',
+  },
+  {
+    type: RoleType.DEFAULT,
+    nameEn: 'Store Manager',
+    nameAr: 'مدير المتجر',
+    descriptionEn:
+      'The Supervisor monitors staff performance, coordinates daily operations, and ensures customer satisfaction.',
+    descriptionAr: 'يتابع المشرف أداء الموظفين، وينسّق العمليات اليومية، ويضمن رضا العملاء.',
+  },
+  {
+    type: RoleType.DEFAULT,
+    nameEn: 'Inventory Manager',
+    nameAr: 'مدير المخزون',
+    descriptionEn:
+      'The Inventory Manager maintains financial records, oversees transactions, and ensures compliance with financial regulations.',
+    descriptionAr: 'يحافظ مدير المخزون على السجلات المالية، ويراقب المعاملات، ويضمن الامتثال للأنظمة المالية.',
+  },
+  {
+    type: RoleType.DEFAULT,
+    nameEn: 'Accountant',
+    nameAr: 'محاسب',
+    descriptionEn:
+      'The Accountant manages financial records, oversees transactions, and ensures compliance with financial regulations.',
+    descriptionAr: 'يدير المحاسب السجلات المالية، ويراقب المعاملات، ويضمن الامتثال للأنظمة المالية.',
+  },
 ];
 
 async function seed() {
@@ -27,6 +121,8 @@ async function seed() {
   const roleRepo = AppDataSource.getRepository(Role);
   const permissionRepo = AppDataSource.getRepository(Permission);
   const userRepo = AppDataSource.getRepository(User);
+  const taxRepo = AppDataSource.getRepository(Tax);
+  const taxLineRepo = AppDataSource.getRepository(TaxLine);
 
   // 1. Permission catalog — idempotent upsert by code.
   await permissionRepo.upsert(
@@ -45,7 +141,13 @@ async function seed() {
   //    they're meant to be configured by Super Admin/Admin after first run,
   //    not seeded with an opinionated guess.
   await roleRepo.upsert(
-    SYSTEM_ROLES.map((r) => ({ nameEn: r.nameEn, nameAr: r.nameAr, type: r.type })),
+    SYSTEM_ROLES.map((r) => ({
+      nameEn: r.nameEn,
+      nameAr: r.nameAr,
+      descriptionEn: r.descriptionEn,
+      descriptionAr: r.descriptionAr,
+      type: r.type,
+    })),
     ['nameEn'],
   );
   console.log(`Upserted ${SYSTEM_ROLES.length} system roles.`);
@@ -96,6 +198,31 @@ async function seed() {
       console.log(`Created initial Super Admin user: ${superAdminEmail}`);
     }
   }
+
+  // 5. System taxes — idempotent upsert by code. Always fully re-synced
+  //    (name/type/rate/lines overwritten from the definition above) since
+  //    these aren't user-editable in the first place; a future tweak to the
+  //    definitions here should apply cleanly on the next seed run.
+  for (const definition of SYSTEM_TAXES) {
+    let tax = await taxRepo.findOne({ where: { code: definition.code } });
+    if (!tax) {
+      tax = taxRepo.create({ code: definition.code });
+    }
+    tax.name = definition.name;
+    tax.type = definition.type;
+    tax.isActive = definition.isActive;
+    tax.hasCompoundTax = definition.hasCompoundTax;
+    tax.compoundLabel = definition.compoundLabel ?? null;
+    tax.compoundRate = definition.compoundRate ?? null;
+    tax = await taxRepo.save(tax);
+
+    await taxLineRepo.delete({ taxId: tax.id });
+    tax.lines = definition.lines.map((line, index) =>
+      taxLineRepo.create({ taxId: tax!.id, label: line.label, rate: line.rate, sortOrder: index }),
+    );
+    await taxRepo.save(tax);
+  }
+  console.log(`Upserted ${SYSTEM_TAXES.length} system taxes.`);
 
   await AppDataSource.destroy();
   console.log('Seed complete.');

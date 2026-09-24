@@ -39,6 +39,7 @@ export class RolesService {
     return {
       id: role.id,
       name: lang === 'ar' ? role.nameAr : role.nameEn,
+      description: (lang === 'ar' ? role.descriptionAr : role.descriptionEn) ?? null,
       type: role.type,
       isLocked: role.type === RoleType.SUPER_ADMIN || role.type === RoleType.ADMIN,
       isDeletable: role.type === RoleType.CUSTOM,
@@ -73,6 +74,8 @@ export class RolesService {
     const role = this.roleRepository.create({
       nameEn: dto.nameEn,
       nameAr: dto.nameAr,
+      descriptionEn: dto.descriptionEn ?? null,
+      descriptionAr: dto.descriptionAr ?? null,
       type: RoleType.CUSTOM,
       permissions: [],
     });
