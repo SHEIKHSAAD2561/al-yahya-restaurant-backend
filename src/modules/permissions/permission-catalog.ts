@@ -93,8 +93,10 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.CUSTOMERS,
     code: 'customers.access',
-    descriptionEn: 'Allow user to view basic customer information (name and mobile number)',
-    descriptionAr: 'السماح للمستخدم بعرض معلومات العميل الأساسية (الاسم ورقم الجوال)',
+    descriptionEn:
+      'Allow user to view basic customer information (name and mobile number)',
+    descriptionAr:
+      'السماح للمستخدم بعرض معلومات العميل الأساسية (الاسم ورقم الجوال)',
   },
   {
     module: PermissionModule.CUSTOMERS,
@@ -123,14 +125,18 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.CUSTOMERS,
     code: 'customers.view_balances',
-    descriptionEn: 'User can view transactions, total paid and due amounts of all customers',
-    descriptionAr: 'يمكن للمستخدم عرض المعاملات وإجمالي المبالغ المدفوعة والمستحقة لجميع العملاء',
+    descriptionEn:
+      'User can view transactions, total paid and due amounts of all customers',
+    descriptionAr:
+      'يمكن للمستخدم عرض المعاملات وإجمالي المبالغ المدفوعة والمستحقة لجميع العملاء',
   },
   {
     module: PermissionModule.CUSTOMERS,
     code: 'customers.manage_settlements',
-    descriptionEn: 'User can create settlements, and mark invoices as fully or partially paid',
-    descriptionAr: 'يمكن للمستخدم إنشاء التسويات، وتحديد الفواتير كمدفوعة بالكامل أو جزئيًا',
+    descriptionEn:
+      'User can create settlements, and mark invoices as fully or partially paid',
+    descriptionAr:
+      'يمكن للمستخدم إنشاء التسويات، وتحديد الفواتير كمدفوعة بالكامل أو جزئيًا',
   },
 
   // eCommerce Orders
@@ -143,16 +149,20 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.ECOMMERCE_ORDERS,
     code: 'ecommerce_orders.manage',
-    descriptionEn: 'User can process orders, change order status, and manage refunds',
-    descriptionAr: 'يمكن للمستخدم معالجة الطلبات وتغيير حالتها وإدارة المبالغ المستردة',
+    descriptionEn:
+      'User can process orders, change order status, and manage refunds',
+    descriptionAr:
+      'يمكن للمستخدم معالجة الطلبات وتغيير حالتها وإدارة المبالغ المستردة',
   },
 
   // Products
   {
     module: PermissionModule.PRODUCTS,
     code: 'products.access',
-    descriptionEn: 'Allow user to view basic product information. This does not include cost and quantities',
-    descriptionAr: 'السماح للمستخدم بعرض معلومات المنتج الأساسية، ولا يشمل ذلك التكلفة والكميات',
+    descriptionEn:
+      'Allow user to view basic product information. This does not include cost and quantities',
+    descriptionAr:
+      'السماح للمستخدم بعرض معلومات المنتج الأساسية، ولا يشمل ذلك التكلفة والكميات',
   },
   {
     module: PermissionModule.PRODUCTS,
@@ -207,8 +217,10 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.STOCK,
     code: 'stock.access',
-    descriptionEn: 'Allow user to view product quantities and stock levels of their assigned locations',
-    descriptionAr: 'السماح للمستخدم بعرض كميات المنتجات ومستويات المخزون للفروع المخصصة له',
+    descriptionEn:
+      'Allow user to view product quantities and stock levels of their assigned locations',
+    descriptionAr:
+      'السماح للمستخدم بعرض كميات المنتجات ومستويات المخزون للفروع المخصصة له',
   },
   {
     module: PermissionModule.STOCK,
@@ -221,7 +233,8 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
     code: 'stock.manage_movements',
     descriptionEn:
       'Allows the user to create, review, and confirm stock movement transactions to keep inventory records accurate',
-    descriptionAr: 'يتيح للمستخدم إنشاء ومراجعة واعتماد حركات المخزون للحفاظ على دقة سجلات المخزون',
+    descriptionAr:
+      'يتيح للمستخدم إنشاء ومراجعة واعتماد حركات المخزون للحفاظ على دقة سجلات المخزون',
   },
   {
     module: PermissionModule.STOCK,
@@ -234,12 +247,14 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
     code: 'stock.request_transfer',
     descriptionEn:
       'User can request stock to be moved between locations and they can cancel them if no action has been taken',
-    descriptionAr: 'يمكن للمستخدم طلب نقل المخزون بين الفروع، ويمكنه إلغاء الطلب في حال عدم اتخاذ أي إجراء عليه',
+    descriptionAr:
+      'يمكن للمستخدم طلب نقل المخزون بين الفروع، ويمكنه إلغاء الطلب في حال عدم اتخاذ أي إجراء عليه',
   },
   {
     module: PermissionModule.STOCK,
     code: 'stock.approve_transfer',
-    descriptionEn: 'User can approve or reject transfer requests from other locations',
+    descriptionEn:
+      'User can approve or reject transfer requests from other locations',
     descriptionAr: 'يمكن للمستخدم قبول أو رفض طلبات النقل الواردة من فروع أخرى',
   },
 
@@ -247,8 +262,10 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.PURCHASES_SUPPLIERS,
     code: 'purchases_suppliers.access',
-    descriptionEn: 'Allow user to view basic suppliers and purchase orders information',
-    descriptionAr: 'السماح للمستخدم بعرض المعلومات الأساسية للموردين وأوامر الشراء',
+    descriptionEn:
+      'Allow user to view basic suppliers and purchase orders information',
+    descriptionAr:
+      'السماح للمستخدم بعرض المعلومات الأساسية للموردين وأوامر الشراء',
   },
   {
     module: PermissionModule.PURCHASES_SUPPLIERS,
@@ -259,27 +276,34 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.PURCHASES_SUPPLIERS,
     code: 'purchases_suppliers.manage_invoices',
-    descriptionEn: 'User can record, modify, confirm, and delete supplier purchase invoices',
-    descriptionAr: 'يمكن للمستخدم تسجيل وتعديل واعتماد وحذف فواتير شراء الموردين',
+    descriptionEn:
+      'User can record, modify, confirm, and delete supplier purchase invoices',
+    descriptionAr:
+      'يمكن للمستخدم تسجيل وتعديل واعتماد وحذف فواتير شراء الموردين',
   },
   {
     module: PermissionModule.PURCHASES_SUPPLIERS,
     code: 'purchases_suppliers.record_returns',
-    descriptionEn: 'User can record credit notes for stock returned to suppliers',
-    descriptionAr: 'يمكن للمستخدم تسجيل إشعارات دائنة للمخزون المرتجع إلى الموردين',
+    descriptionEn:
+      'User can record credit notes for stock returned to suppliers',
+    descriptionAr:
+      'يمكن للمستخدم تسجيل إشعارات دائنة للمخزون المرتجع إلى الموردين',
   },
   {
     module: PermissionModule.PURCHASES_SUPPLIERS,
     code: 'purchases_suppliers.view_credit_balance',
-    descriptionEn: "Allows the user to view suppliers' credit balances and outstanding amounts",
-    descriptionAr: 'يتيح للمستخدم عرض الأرصدة الدائنة والمبالغ المستحقة للموردين',
+    descriptionEn:
+      "Allows the user to view suppliers' credit balances and outstanding amounts",
+    descriptionAr:
+      'يتيح للمستخدم عرض الأرصدة الدائنة والمبالغ المستحقة للموردين',
   },
   {
     module: PermissionModule.PURCHASES_SUPPLIERS,
     code: 'purchases_suppliers.manage_suppliers_payables',
     descriptionEn:
       'User can create, edit and delete suppliers, manage supplier payables and create settlements against supplier invoices',
-    descriptionAr: 'يمكن للمستخدم إنشاء وتعديل وحذف الموردين، وإدارة مستحقاتهم، وإنشاء تسويات لفواتيرهم',
+    descriptionAr:
+      'يمكن للمستخدم إنشاء وتعديل وحذف الموردين، وإدارة مستحقاتهم، وإنشاء تسويات لفواتيرهم',
   },
 
   // Expenses
@@ -318,8 +342,10 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.EXPENSES,
     code: 'expenses.manage_wallet',
-    descriptionEn: 'User can record manual additions and withdrawals to the wallet balance',
-    descriptionAr: 'يمكن للمستخدم تسجيل الإضافات والسحوبات اليدوية لرصيد المحفظة',
+    descriptionEn:
+      'User can record manual additions and withdrawals to the wallet balance',
+    descriptionAr:
+      'يمكن للمستخدم تسجيل الإضافات والسحوبات اليدوية لرصيد المحفظة',
   },
 
   // Accounting
@@ -344,8 +370,10 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.ACCOUNTING,
     code: 'accounting.manage_chart_of_accounts',
-    descriptionEn: 'User can modify the chart of accounts, including adding, editing, and deleting accounts',
-    descriptionAr: 'يمكن للمستخدم تعديل دليل الحسابات، بما في ذلك إضافة الحسابات وتعديلها وحذفها',
+    descriptionEn:
+      'User can modify the chart of accounts, including adding, editing, and deleting accounts',
+    descriptionAr:
+      'يمكن للمستخدم تعديل دليل الحسابات، بما في ذلك إضافة الحسابات وتعديلها وحذفها',
   },
   {
     module: PermissionModule.ACCOUNTING,
@@ -378,26 +406,32 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.DASHBOARD,
     code: 'dashboard.sales_insights',
-    descriptionEn: 'User can view sales insights such as top performing products and sales trends',
-    descriptionAr: 'يمكن للمستخدم عرض رؤى المبيعات مثل المنتجات الأكثر مبيعًا واتجاهات المبيعات',
+    descriptionEn:
+      'User can view sales insights such as top performing products and sales trends',
+    descriptionAr:
+      'يمكن للمستخدم عرض رؤى المبيعات مثل المنتجات الأكثر مبيعًا واتجاهات المبيعات',
   },
   {
     module: PermissionModule.DASHBOARD,
     code: 'dashboard.sales_breakdowns',
-    descriptionEn: 'User can view sales breakdown by locations, product and salesman',
-    descriptionAr: 'يمكن للمستخدم عرض تفاصيل المبيعات حسب الفروع والمنتج والبائع',
+    descriptionEn:
+      'User can view sales breakdown by locations, product and salesman',
+    descriptionAr:
+      'يمكن للمستخدم عرض تفاصيل المبيعات حسب الفروع والمنتج والبائع',
   },
   {
     module: PermissionModule.DASHBOARD,
     code: 'dashboard.view_financial_metrics',
     descriptionEn:
       "Allow the user to view financial performance data, including gross profit, net income, and today's inventory value.",
-    descriptionAr: 'السماح للمستخدم بعرض بيانات الأداء المالي، بما في ذلك إجمالي الربح وصافي الدخل وقيمة المخزون الحالية',
+    descriptionAr:
+      'السماح للمستخدم بعرض بيانات الأداء المالي، بما في ذلك إجمالي الربح وصافي الدخل وقيمة المخزون الحالية',
   },
   {
     module: PermissionModule.DASHBOARD,
     code: 'dashboard.view_register_insights',
-    descriptionEn: 'Allow user to view register insights such as cash drawer activity',
+    descriptionEn:
+      'Allow user to view register insights such as cash drawer activity',
     descriptionAr: 'السماح للمستخدم بعرض رؤى السجلات مثل نشاط درج النقد',
   },
 
@@ -435,14 +469,17 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.REPORTS,
     code: 'reports.view_tax_reports',
-    descriptionEn: 'User can view all tax reports. This includes tax declaration.',
-    descriptionAr: 'يمكن للمستخدم عرض جميع التقارير الضريبية، ويشمل ذلك الإقرار الضريبي',
+    descriptionEn:
+      'User can view all tax reports. This includes tax declaration.',
+    descriptionAr:
+      'يمكن للمستخدم عرض جميع التقارير الضريبية، ويشمل ذلك الإقرار الضريبي',
   },
   {
     module: PermissionModule.REPORTS,
     code: 'reports.export_reports',
     descriptionEn: 'User can export reports they have access to as CSV files',
-    descriptionAr: 'يمكن للمستخدم تصدير التقارير التي يملك صلاحية الوصول إليها بصيغة CSV',
+    descriptionAr:
+      'يمكن للمستخدم تصدير التقارير التي يملك صلاحية الوصول إليها بصيغة CSV',
   },
 
   // Settings (Users/Roles/Locations management endpoints are real, built already;
@@ -488,13 +525,17 @@ export const PERMISSION_CATALOG: PermissionCatalogEntry[] = [
   {
     module: PermissionModule.SETTINGS,
     code: 'settings.general_account_setup',
-    descriptionEn: 'User can view and manage general account configurations, such as company overview and custom fields',
-    descriptionAr: 'يمكن للمستخدم عرض وإدارة الإعدادات العامة للحساب، مثل نظرة عامة على الشركة والحقول المخصصة',
+    descriptionEn:
+      'User can view and manage general account configurations, such as company overview and custom fields',
+    descriptionAr:
+      'يمكن للمستخدم عرض وإدارة الإعدادات العامة للحساب، مثل نظرة عامة على الشركة والحقول المخصصة',
   },
   {
     module: PermissionModule.SETTINGS,
     code: 'settings.financial_settings',
-    descriptionEn: 'User can view and manage taxes, payment methods, and inventory configurations',
-    descriptionAr: 'يمكن للمستخدم عرض وإدارة الضرائب وطرق الدفع وإعدادات المخزون',
+    descriptionEn:
+      'User can view and manage taxes, payment methods, and inventory configurations',
+    descriptionAr:
+      'يمكن للمستخدم عرض وإدارة الضرائب وطرق الدفع وإعدادات المخزون',
   },
 ];

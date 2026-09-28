@@ -25,6 +25,33 @@ import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
 import { CompanyModule } from './modules/company/company.module';
 import { TaxesModule } from './modules/taxes/taxes.module';
+import { ConfigurationModule } from './modules/configuration/configuration.module';
+import { PaymentMethodsModule } from './modules/payment-methods/payment-methods.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { BrandsModule } from './modules/brands/brands.module';
+import { ProductsModule } from './modules/products/products.module';
+import { RegistersModule } from './modules/registers/registers.module';
+import { CustomersModule } from './modules/customers/customers.module';
+import { SalesModule } from './modules/sales/sales.module';
+import { SaleSettingsModule } from './modules/sale-settings/sale-settings.module';
+import { ReceiptSettingsModule } from './modules/receipt-settings/receipt-settings.module';
+import { PromotionsModule } from './modules/promotions/promotions.module';
+import { ExpensesModule } from './modules/expenses/expenses.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { ReportsModule } from './modules/reports/reports.module';
+import { SuppliersModule } from './modules/suppliers/suppliers.module';
+import { PurchaseInvoicesModule } from './modules/purchase-invoices/purchase-invoices.module';
+import { ReturnInvoicesModule } from './modules/return-invoices/return-invoices.module';
+import { SupplierPaymentsModule } from './modules/supplier-payments/supplier-payments.module';
+import { StockOperationsModule } from './modules/stock-operations/stock-operations.module';
+import { StockCountModule } from './modules/stock-count/stock-count.module';
+import { StockTransferModule } from './modules/stock-transfer/stock-transfer.module';
+import { CustomerPaymentsModule } from './modules/customer-payments/customer-payments.module';
+import { ChartOfAccountsModule } from './modules/chart-of-accounts/chart-of-accounts.module';
+import { JournalEntriesModule } from './modules/journal-entries/journal-entries.module';
+import { FixedAssetsModule } from './modules/fixed-assets/fixed-assets.module';
+import { FinancialReportsModule } from './modules/financial-reports/financial-reports.module';
+import { DigitalMenuModule } from './modules/digital-menu/digital-menu.module';
 
 @Module({
   imports: [
@@ -59,7 +86,8 @@ import { TaxesModule } from './modules/taxes/taxes.module';
             username: config.get<string>('DB_USERNAME')!,
             password: config.get<string>('DB_PASSWORD', ''),
             database: config.get<string>('DB_DATABASE')!,
-            synchronize: config.get<string>('DB_SYNCHRONIZE', 'false') === 'true',
+            synchronize:
+              config.get<string>('DB_SYNCHRONIZE', 'false') === 'true',
           },
           {},
         ),
@@ -77,6 +105,33 @@ import { TaxesModule } from './modules/taxes/taxes.module';
     MailModule,
     CompanyModule,
     TaxesModule,
+    ConfigurationModule,
+    PaymentMethodsModule,
+    CategoriesModule,
+    BrandsModule,
+    ProductsModule,
+    RegistersModule,
+    CustomersModule,
+    SalesModule,
+    SaleSettingsModule,
+    ReceiptSettingsModule,
+    PromotionsModule,
+    ExpensesModule,
+    DashboardModule,
+    ReportsModule,
+    SuppliersModule,
+    PurchaseInvoicesModule,
+    ReturnInvoicesModule,
+    SupplierPaymentsModule,
+    StockOperationsModule,
+    StockCountModule,
+    StockTransferModule,
+    CustomerPaymentsModule,
+    ChartOfAccountsModule,
+    JournalEntriesModule,
+    FixedAssetsModule,
+    FinancialReportsModule,
+    DigitalMenuModule,
   ],
   controllers: [AppController],
   providers: [
@@ -86,7 +141,8 @@ import { TaxesModule } from './modules/taxes/taxes.module';
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     {
       provide: APP_INTERCEPTOR,
-      useFactory: (reflector: Reflector) => new ClassSerializerInterceptor(reflector),
+      useFactory: (reflector: Reflector) =>
+        new ClassSerializerInterceptor(reflector),
       inject: [Reflector],
     },
   ],

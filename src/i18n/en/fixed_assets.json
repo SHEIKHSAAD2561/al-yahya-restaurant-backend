@@ -1,0 +1,7 @@
+{
+  "not_found": "Fixed asset not found.",
+  "has_depreciation": "This asset has depreciation entries and can't be deleted.",
+  "already_disposed": "This asset has already been disposed of.",
+  "period_already_recorded": "Depreciation for this period has already been recorded for this asset.",
+  "fully_depreciated": "This asset is already fully depreciated."
+}

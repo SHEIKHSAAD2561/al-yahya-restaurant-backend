@@ -46,12 +46,13 @@ export class UsersService {
     if (query.roleId) base.roleId = query.roleId;
     if (query.status) base.status = query.status;
 
-    const where: FindOptionsWhere<User> | FindOptionsWhere<User>[] = query.search
-      ? [
-          { ...base, nameEn: ILike(`%${query.search}%`) },
-          { ...base, nameAr: ILike(`%${query.search}%`) },
-        ]
-      : base;
+    const where: FindOptionsWhere<User> | FindOptionsWhere<User>[] =
+      query.search
+        ? [
+            { ...base, nameEn: ILike(`%${query.search}%`) },
+            { ...base, nameAr: ILike(`%${query.search}%`) },
+          ]
+        : base;
 
     return this.userRepository.find({
       where,
@@ -88,7 +89,9 @@ export class UsersService {
   }
 
   async findByPasswordResetTokenHash(tokenHash: string): Promise<User | null> {
-    return this.userRepository.findOne({ where: { passwordResetTokenHash: tokenHash } });
+    return this.userRepository.findOne({
+      where: { passwordResetTokenHash: tokenHash },
+    });
   }
 
   /** Sets the user's password and clears the invite/reset token. Activates a PENDING user. */
@@ -151,7 +154,10 @@ export class UsersService {
         saved.preferredLanguage,
       );
     } catch (error) {
-      this.logger.error(`Failed to send invitation email to ${saved.email}`, error as Error);
+      this.logger.error(
+        `Failed to send invitation email to ${saved.email}`,
+        error as Error,
+      );
     }
 
     return saved;
@@ -183,11 +189,14 @@ export class UsersService {
     if (dto.nameEn !== undefined) user.nameEn = dto.nameEn;
     if (dto.nameAr !== undefined) user.nameAr = dto.nameAr;
     if (dto.phone !== undefined) user.phone = dto.phone;
-    if (dto.preferredLanguage !== undefined) user.preferredLanguage = dto.preferredLanguage;
+    if (dto.preferredLanguage !== undefined)
+      user.preferredLanguage = dto.preferredLanguage;
 
     if (dto.allLocations !== undefined) {
       user.allLocations = dto.allLocations;
-      user.locations = dto.allLocations ? [] : await this.resolveLocations(dto.locationIds ?? []);
+      user.locations = dto.allLocations
+        ? []
+        : await this.resolveLocations(dto.locationIds ?? []);
     }
 
     return this.userRepository.save(user);
@@ -200,7 +209,10 @@ export class UsersService {
       throw new ForbiddenException(this.t('users.cannot_modify_super_admin'));
     }
 
-    if (user.status === UserStatus.PENDING && dto.status === UserStatus.ACTIVE) {
+    if (
+      user.status === UserStatus.PENDING &&
+      dto.status === UserStatus.ACTIVE
+    ) {
       throw new BadRequestException(
         'This user must accept their invitation before being activated.',
       );
@@ -213,7 +225,9 @@ export class UsersService {
   /** Issues a fresh reset token for an existing user (forgot-password flow) —
    * the same token/expiry mechanism `create()` uses for invites, consumed by
    * the same `POST /auth/accept-invitation` endpoint either way. */
-  async createPasswordResetToken(id: string): Promise<{ rawToken: string; user: User }> {
+  async createPasswordResetToken(
+    id: string,
+  ): Promise<{ rawToken: string; user: User }> {
     const user = await this.findOneOrFail(id);
     const { rawToken, tokenHash, expiresAt } = this.generateResetToken();
     user.passwordResetTokenHash = tokenHash;
@@ -224,7 +238,9 @@ export class UsersService {
 
   private async resolveLocations(locationIds: string[]): Promise<Location[]> {
     if (locationIds.length === 0) return [];
-    const locations = await this.locationRepository.find({ where: { id: In(locationIds) } });
+    const locations = await this.locationRepository.find({
+      where: { id: In(locationIds) },
+    });
     if (locations.length !== locationIds.length) {
       throw new BadRequestException('One or more locations are invalid.');
     }

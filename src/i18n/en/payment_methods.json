@@ -1,0 +1,8 @@
+{
+  "not_found": "Payment method not found.",
+  "name_taken": "A payment method with this name already exists.",
+  "system_type_locked": "The type of a built-in payment method can't be changed.",
+  "bank_account_required": "Select a linked account for this payment type.",
+  "bank_account_not_found": "The selected linked account doesn't exist.",
+  "bank_account_number_taken": "A bank account with this number already exists."
+}

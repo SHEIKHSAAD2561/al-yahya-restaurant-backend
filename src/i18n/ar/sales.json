@@ -1,0 +1,15 @@
+{
+  "not_found": "عملية البيع غير موجودة.",
+  "parked_not_found": "عملية البيع المعلّقة غير موجودة.",
+  "duplicate_line": "نفس المنتج مضاف مرتين في السلة.",
+  "not_sellable": "هذا المنتج غير قابل للبيع",
+  "no_price_at_location": "لا يوجد سعر محدد لهذا المنتج في هذا الفرع",
+  "insufficient_stock": "لا يوجد مخزون كافٍ لـ",
+  "insufficient_payment": "المبلغ المدفوع أقل من إجمالي المستحق.",
+  "payment_method_not_assigned": "طريقة الدفع هذه غير مُعيَّنة لهذا الكاشير.",
+  "customer_not_found": "العميل المحدد غير موجود.",
+  "wholesale_not_allowed": "ليس لديك صلاحية البيع بسعر الجملة.",
+  "price_edit_not_allowed": "ليس لديك صلاحية تعديل الأسعار أو إضافة خصم.",
+  "post_payment_not_allowed": "ليس لديك صلاحية إتمام البيع بخيار الدفع الآجل.",
+  "post_payment_requires_customer": "يجب اختيار عميل لإتمام البيع بخيار الدفع الآجل."
+}

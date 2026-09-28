@@ -1,0 +1,7 @@
+{
+  "default_tax_not_found": "The selected default tax doesn't exist.",
+  "default_tax_inactive": "The default tax must be an active tax.",
+  "sell_tax_status_locked": "Sell tax status must be Exclusive while VAT + Tobacco Tax is active.",
+  "default_location_inactive": "The default location must be an active location.",
+  "default_payment_method_not_found": "The selected default payment method doesn't exist."
+}

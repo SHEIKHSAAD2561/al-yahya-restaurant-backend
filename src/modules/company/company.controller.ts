@@ -28,14 +28,26 @@ export class CompanyController {
     return this.companyService.findOrCreate();
   }
 
-  /** Public and permission-free on purpose: just enough to brand the
-   * sidebar/favicon (including on the pre-login screen) — not the full
-   * record the Settings page edits. */
+  /**
+   * Public and permission-free on purpose: enough to brand the
+   * sidebar/favicon (including on the pre-login screen) and to print a
+   * receipt — not the full record the Settings page edits, and not
+   * sensitive: every field here is information that already goes on a
+   * printed receipt handed to a customer, so a cashier with no
+   * `settings.*` permission at all still needs to read it at checkout.
+   */
   @Get('branding')
   @Public()
   async getBranding() {
     const company = await this.companyService.findOrCreate();
-    return { name: company.name, logoUrl: company.logoUrl };
+    return {
+      name: company.name,
+      logoUrl: company.logoUrl,
+      address: company.address,
+      phone: company.phone,
+      vatNumber: company.vatNumber,
+      commercialRegister: company.commercialRegister,
+    };
   }
 
   @Patch()
@@ -57,12 +69,18 @@ export class CompanyController {
   uploadLogo(
     @UploadedFile(
       new ParseFilePipeBuilder()
-        .addFileTypeValidator({ fileType: /^image\/(png|jpe?g|webp|svg\+xml)$/ })
+        .addFileTypeValidator({
+          fileType: /^image\/(png|jpe?g|webp|svg\+xml)$/,
+        })
         .addMaxSizeValidator({ maxSize: MAX_LOGO_SIZE_BYTES })
         .build({ errorHttpStatusCode: HttpStatus.BAD_REQUEST }),
     )
     file: Express.Multer.File,
   ) {
-    return this.companyService.saveLogo(file.buffer, file.originalname, file.mimetype);
+    return this.companyService.saveLogo(
+      file.buffer,
+      file.originalname,
+      file.mimetype,
+    );
   }
 }

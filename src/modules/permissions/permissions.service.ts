@@ -25,7 +25,8 @@ export class PermissionsService {
         id: permission.id,
         module: permission.module,
         code: permission.code,
-        description: lang === 'ar' ? permission.descriptionAr : permission.descriptionEn,
+        description:
+          lang === 'ar' ? permission.descriptionAr : permission.descriptionEn,
       };
       (grouped[permission.module] ??= []).push(dto);
     }

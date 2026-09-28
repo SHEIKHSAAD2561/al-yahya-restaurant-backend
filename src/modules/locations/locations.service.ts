@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { I18nContext } from 'nestjs-i18n';
@@ -71,6 +75,9 @@ export class LocationsService {
   }
 
   private async clearExistingDefault(): Promise<void> {
-    await this.locationRepository.update({ isDefault: true }, { isDefault: false });
+    await this.locationRepository.update(
+      { isDefault: true },
+      { isDefault: false },
+    );
   }
 }

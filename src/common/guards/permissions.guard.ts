@@ -1,6 +1,14 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { REQUIRE_PERMISSIONS_KEY } from '../decorators/require-permissions.decorator';
+import {
+  REQUIRE_ANY_PERMISSION_KEY,
+  REQUIRE_PERMISSIONS_KEY,
+} from '../decorators/require-permissions.decorator';
 import { AuthenticatedRequest } from '../types/authenticated-request';
 
 /**
@@ -14,21 +22,33 @@ export class PermissionsGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredPermissions = this.reflector.getAllAndOverride<string[]>(
-      REQUIRE_PERMISSIONS_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const targets = [context.getHandler(), context.getClass()];
+    const requiredAll =
+      this.reflector.getAllAndOverride<string[]>(
+        REQUIRE_PERMISSIONS_KEY,
+        targets,
+      ) ?? [];
+    const requiredAny =
+      this.reflector.getAllAndOverride<string[]>(
+        REQUIRE_ANY_PERMISSION_KEY,
+        targets,
+      ) ?? [];
 
-    if (!requiredPermissions || requiredPermissions.length === 0) {
+    if (requiredAll.length === 0 && requiredAny.length === 0) {
       return true;
     }
 
     const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
     const userPermissions = request.user?.permissionCodes ?? new Set<string>();
 
-    const hasAll = requiredPermissions.every((code) => userPermissions.has(code));
-    if (!hasAll) {
-      throw new ForbiddenException('You do not have permission to perform this action.');
+    const hasAll = requiredAll.every((code) => userPermissions.has(code));
+    const hasAny =
+      requiredAny.length === 0 ||
+      requiredAny.some((code) => userPermissions.has(code));
+    if (!hasAll || !hasAny) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action.',
+      );
     }
 
     return true;

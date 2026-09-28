@@ -8,7 +8,11 @@ import { RolesModule } from '../roles/roles.module';
 import { MailModule } from '../mail/mail.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Location]), RolesModule, MailModule],
+  imports: [
+    TypeOrmModule.forFeature([User, Location]),
+    RolesModule,
+    MailModule,
+  ],
   controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService],

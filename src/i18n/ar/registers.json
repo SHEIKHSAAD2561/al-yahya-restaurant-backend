@@ -1,0 +1,12 @@
+{
+  "not_found": "الكاشير غير موجود.",
+  "already_open": "هذا الكاشير مفتوح بالفعل.",
+  "not_open": "هذا الكاشير غير مفتوح.",
+  "not_a_cashier": "أنت لست من الكاشيرين المعينين لهذا الجهاز.",
+  "location_not_found": "الفرع المحدد غير موجود.",
+  "cashier_not_found": "أحد الكاشيرين المحددين غير موجود.",
+  "payment_method_not_found": "إحدى طرق الدفع المحددة غير موجودة.",
+  "duplicate_payment_method_count": "تم عد نفس طريقة الدفع مرتين.",
+  "count_every_payment_method": "احسب كل طريقة دفع مخصصة لهذا الكاشير.",
+  "session_not_found": "جلسة الكاشير غير موجودة."
+}

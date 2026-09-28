@@ -1,10 +1,18 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { TaxLine } from './tax-line.entity';
 import { TaxType } from './tax-type.enum';
 
 const decimalTransformer = {
   to: (value?: number | null) => value,
-  from: (value?: string | null) => (value === undefined || value === null ? value : parseFloat(value)),
+  from: (value?: string | null) =>
+    value === undefined || value === null ? value : parseFloat(value),
 };
 
 @Entity('taxes')
@@ -34,7 +42,13 @@ export class Tax {
   @Column({ type: 'varchar', length: 100, nullable: true })
   compoundLabel: string | null;
 
-  @Column({ type: 'decimal', precision: 6, scale: 2, nullable: true, transformer: decimalTransformer })
+  @Column({
+    type: 'decimal',
+    precision: 6,
+    scale: 2,
+    nullable: true,
+    transformer: decimalTransformer,
+  })
   compoundRate: number | null;
 
   /** Independent per tax — more than one can be active at once (e.g. a

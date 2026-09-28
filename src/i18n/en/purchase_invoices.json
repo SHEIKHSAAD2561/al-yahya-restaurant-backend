@@ -1,0 +1,8 @@
+{
+  "not_found": "Purchase invoice not found.",
+  "supplier_not_found": "The selected supplier doesn't exist.",
+  "duplicate_line": "The same product appears twice in this invoice.",
+  "composite_not_purchasable": "A composite product can't be purchased directly (it has no stock of its own).",
+  "not_editable": "This invoice is confirmed and can no longer be edited or deleted.",
+  "already_confirmed": "This invoice is already confirmed."
+}

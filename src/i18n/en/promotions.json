@@ -1,0 +1,6 @@
+{
+  "not_found": "Promotion not found.",
+  "end_before_start": "The end date must be after the start date.",
+  "discount_percent_max": "A percentage discount can't be more than 100%.",
+  "get_discount_percent_max": "The \"Get\" discount can't be more than 100%."
+}

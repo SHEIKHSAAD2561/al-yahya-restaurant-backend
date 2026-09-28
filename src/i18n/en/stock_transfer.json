@@ -1,0 +1,9 @@
+{
+  "not_found": "Stock transfer not found.",
+  "same_location": "The source and destination locations must be different.",
+  "duplicate_line": "The same product variant was added more than once.",
+  "composite_not_transferable": "Composite products can't be transferred directly.",
+  "not_pending": "This transfer has already been responded to.",
+  "not_requester": "Only the user who requested this transfer can cancel it.",
+  "insufficient_stock": "Not enough stock at the source location to transfer."
+}

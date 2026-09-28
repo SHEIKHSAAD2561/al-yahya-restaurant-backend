@@ -1,0 +1,7 @@
+{
+  "not_found": "Stock count not found.",
+  "nothing_to_count": "There's no stock recorded at this location to count.",
+  "not_editable": "This count is confirmed and can no longer be edited or deleted.",
+  "already_confirmed": "This count is already confirmed.",
+  "line_not_found": "One of the lines doesn't belong to this count."
+}

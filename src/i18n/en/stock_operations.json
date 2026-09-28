@@ -1,0 +1,8 @@
+{
+  "not_found": "Stock movement not found.",
+  "duplicate_line": "The same product appears twice in this voucher.",
+  "composite_not_adjustable": "A composite product can't be adjusted directly (it has no stock of its own).",
+  "not_editable": "This voucher is confirmed and can no longer be edited or deleted.",
+  "already_confirmed": "This voucher is already confirmed.",
+  "insufficient_stock": "Not enough stock at this location for this stock-out"
+}

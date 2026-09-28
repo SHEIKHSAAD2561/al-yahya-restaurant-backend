@@ -1,4 +1,11 @@
-import { IsEmail, IsEnum, IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
 import { BusinessType } from '../business-type.enum';
 
@@ -28,7 +35,9 @@ export class UpdateCompanyDto {
   website?: string;
 
   @IsOptional()
-  @IsEnum(BusinessType, { message: i18nValidationMessage('validation.IS_ENUM') })
+  @IsEnum(BusinessType, {
+    message: i18nValidationMessage('validation.IS_ENUM'),
+  })
   businessType?: BusinessType;
 
   @IsOptional()

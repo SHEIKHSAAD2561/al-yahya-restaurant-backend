@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, Index, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { PermissionModule } from './permission-module.enum';
 import { Role } from '../roles/role.entity';
 

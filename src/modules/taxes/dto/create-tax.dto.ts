@@ -32,7 +32,9 @@ export class CreateTaxDto {
   hasCompoundTax?: boolean;
 
   @IsArray()
-  @ArrayMinSize(1, { message: i18nValidationMessage('validation.ARRAY_MIN_SIZE') })
+  @ArrayMinSize(1, {
+    message: i18nValidationMessage('validation.ARRAY_MIN_SIZE'),
+  })
   @ValidateNested({ each: true })
   @Type(() => TaxLineDto)
   lines: TaxLineDto[];

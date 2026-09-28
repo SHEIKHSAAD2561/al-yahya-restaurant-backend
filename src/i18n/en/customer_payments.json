@@ -1,0 +1,4 @@
+{
+  "not_found": "Customer payment not found.",
+  "customer_not_found": "The selected customer doesn't exist."
+}

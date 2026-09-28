@@ -43,7 +43,10 @@ export class CreateUserDto {
   @ValidateIf((dto: CreateUserDto) => dto.allLocations === false)
   @IsArray()
   @ArrayUnique()
-  @IsUUID(undefined, { each: true, message: i18nValidationMessage('validation.IS_UUID') })
+  @IsUUID(undefined, {
+    each: true,
+    message: i18nValidationMessage('validation.IS_UUID'),
+  })
   locationIds?: string[];
 
   @IsOptional()

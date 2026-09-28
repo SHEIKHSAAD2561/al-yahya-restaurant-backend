@@ -1,0 +1,8 @@
+{
+  "not_found": "Account not found.",
+  "code_taken": "That account code is already in use.",
+  "cannot_be_own_parent": "An account can't be its own parent.",
+  "system_account_locked": "This is a system account and can't be deactivated or deleted.",
+  "has_children": "This account has sub-accounts and can't be deleted. Move or delete them first.",
+  "has_journal_lines": "This account has journal entry postings and can't be deleted."
+}

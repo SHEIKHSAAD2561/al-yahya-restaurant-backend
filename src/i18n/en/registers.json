@@ -1,0 +1,12 @@
+{
+  "not_found": "Register not found.",
+  "already_open": "This register is already open.",
+  "not_open": "This register isn't open.",
+  "not_a_cashier": "You're not an assigned cashier for this register.",
+  "location_not_found": "The selected location doesn't exist.",
+  "cashier_not_found": "One of the selected cashiers doesn't exist.",
+  "payment_method_not_found": "One of the selected payment methods doesn't exist.",
+  "duplicate_payment_method_count": "The same payment method was counted twice.",
+  "count_every_payment_method": "Count every payment method assigned to this register.",
+  "session_not_found": "Register session not found."
+}

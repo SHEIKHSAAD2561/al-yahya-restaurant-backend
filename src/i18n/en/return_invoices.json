@@ -1,0 +1,9 @@
+{
+  "not_found": "Return invoice not found.",
+  "supplier_not_found": "The selected supplier doesn't exist.",
+  "duplicate_line": "The same product appears twice in this return.",
+  "composite_not_returnable": "A composite product can't be returned directly (it has no stock of its own).",
+  "not_editable": "This return is confirmed and can no longer be edited or deleted.",
+  "already_confirmed": "This return is already confirmed.",
+  "insufficient_stock": "Not enough stock at this location to return this quantity"
+}

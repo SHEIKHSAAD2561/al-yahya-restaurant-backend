@@ -25,14 +25,18 @@ export class FirebaseStorageService implements OnModuleDestroy {
   private readonly bucketName: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.bucketName = this.configService.get<string>('FIREBASE_STORAGE_BUCKET')!;
+    this.bucketName = this.configService.get<string>(
+      'FIREBASE_STORAGE_BUCKET',
+    )!;
 
     this.app = initializeApp({
       credential: cert({
         projectId: this.configService.get<string>('FIREBASE_PROJECT_ID')!,
         clientEmail: this.configService.get<string>('FIREBASE_CLIENT_EMAIL')!,
         // .env stores the PEM with literal "\n" sequences; real newlines are required here.
-        privateKey: this.configService.get<string>('FIREBASE_PRIVATE_KEY')!.replace(/\\n/g, '\n'),
+        privateKey: this.configService
+          .get<string>('FIREBASE_PRIVATE_KEY')!
+          .replace(/\\n/g, '\n'),
       }),
       storageBucket: this.bucketName,
     });
@@ -45,11 +49,18 @@ export class FirebaseStorageService implements OnModuleDestroy {
 
   /** Uploads a buffer and returns its download URL. `path` is the object key,
    * e.g. `company/<uuid>.png` — callers own their own folder convention. */
-  async uploadFile(buffer: Buffer, path: string, contentType: string): Promise<string> {
+  async uploadFile(
+    buffer: Buffer,
+    path: string,
+    contentType: string,
+  ): Promise<string> {
     const token = randomUUID();
     const file = this.storage.bucket().file(path);
     await file.save(buffer, {
-      metadata: { contentType, metadata: { [DOWNLOAD_TOKEN_METADATA_KEY]: token } },
+      metadata: {
+        contentType,
+        metadata: { [DOWNLOAD_TOKEN_METADATA_KEY]: token },
+      },
     });
     return this.downloadUrl(path, token);
   }
@@ -67,7 +78,9 @@ export class FirebaseStorageService implements OnModuleDestroy {
       .file(path)
       .delete()
       .catch((error: unknown) => {
-        this.logger.warn(`Could not delete storage object ${path}: ${String(error)}`);
+        this.logger.warn(
+          `Could not delete storage object ${path}: ${String(error)}`,
+        );
       });
   }
 

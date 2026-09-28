@@ -39,9 +39,11 @@ export class RolesService {
     return {
       id: role.id,
       name: lang === 'ar' ? role.nameAr : role.nameEn,
-      description: (lang === 'ar' ? role.descriptionAr : role.descriptionEn) ?? null,
+      description:
+        (lang === 'ar' ? role.descriptionAr : role.descriptionEn) ?? null,
       type: role.type,
-      isLocked: role.type === RoleType.SUPER_ADMIN || role.type === RoleType.ADMIN,
+      isLocked:
+        role.type === RoleType.SUPER_ADMIN || role.type === RoleType.ADMIN,
       isDeletable: role.type === RoleType.CUSTOM,
       permissionCodes: (role.permissions ?? []).map((p) => p.code),
     };
@@ -61,12 +63,17 @@ export class RolesService {
     return this.toResponseDto(role, lang);
   }
 
-  async create(dto: CreateRoleDto, requestingRoleType: RoleType): Promise<RoleResponseDto> {
+  async create(
+    dto: CreateRoleDto,
+    requestingRoleType: RoleType,
+  ): Promise<RoleResponseDto> {
     if (requestingRoleType !== RoleType.SUPER_ADMIN) {
       throw new ForbiddenException(this.t('roles.only_super_admin_can_create'));
     }
 
-    const existing = await this.roleRepository.findOne({ where: { nameEn: dto.nameEn } });
+    const existing = await this.roleRepository.findOne({
+      where: { nameEn: dto.nameEn },
+    });
     if (existing) {
       throw new ConflictException(this.t('roles.name_already_exists'));
     }
@@ -98,7 +105,9 @@ export class RolesService {
       where: { code: In(dto.permissionCodes) },
     });
     if (permissions.length !== dto.permissionCodes.length) {
-      throw new BadRequestException('One or more permission codes are invalid.');
+      throw new BadRequestException(
+        'One or more permission codes are invalid.',
+      );
     }
 
     role.permissions = permissions;

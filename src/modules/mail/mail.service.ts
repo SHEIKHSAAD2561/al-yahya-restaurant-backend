@@ -48,7 +48,10 @@ export class MailService {
     try {
       await this.transporter.sendMail({ from: this.from, to, subject, html });
     } catch (error) {
-      this.logger.error(`Failed to send invitation email to ${to}`, error as Error);
+      this.logger.error(
+        `Failed to send invitation email to ${to}`,
+        error as Error,
+      );
       throw error;
     }
   }
@@ -70,7 +73,10 @@ export class MailService {
     try {
       await this.transporter.sendMail({ from: this.from, to, subject, html });
     } catch (error) {
-      this.logger.error(`Failed to send password reset email to ${to}`, error as Error);
+      this.logger.error(
+        `Failed to send password reset email to ${to}`,
+        error as Error,
+      );
       throw error;
     }
   }

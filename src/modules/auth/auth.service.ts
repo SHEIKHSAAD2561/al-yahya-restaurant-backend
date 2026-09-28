@@ -63,7 +63,10 @@ export class AuthService {
       throw new UnauthorizedException(this.t('auth.invalid_credentials'));
     }
 
-    const passwordMatches = await bcrypt.compare(dto.password, user.passwordHash);
+    const passwordMatches = await bcrypt.compare(
+      dto.password,
+      user.passwordHash,
+    );
     if (!passwordMatches) {
       throw new UnauthorizedException(this.t('auth.invalid_credentials'));
     }
@@ -84,9 +87,14 @@ export class AuthService {
     };
   }
 
-  async refresh(rawRefreshToken: string, meta: RequestMetadata = {}): Promise<TokenPair> {
+  async refresh(
+    rawRefreshToken: string,
+    meta: RequestMetadata = {},
+  ): Promise<TokenPair> {
     const tokenHash = hashToken(rawRefreshToken);
-    const existing = await this.refreshTokenRepository.findOne({ where: { tokenHash } });
+    const existing = await this.refreshTokenRepository.findOne({
+      where: { tokenHash },
+    });
 
     if (!existing) {
       throw new UnauthorizedException(this.t('auth.invalid_refresh_token'));
@@ -139,7 +147,10 @@ export class AuthService {
     );
   }
 
-  async getProfile(userId: string, lang: string): Promise<AuthProfileResponseDto> {
+  async getProfile(
+    userId: string,
+    lang: string,
+  ): Promise<AuthProfileResponseDto> {
     const user = await this.usersService.findAuthProfile(userId);
     if (!user) {
       throw new NotFoundException(this.t('users.not_found'));
@@ -164,14 +175,17 @@ export class AuthService {
 
   async acceptInvitation(dto: AcceptInvitationDto): Promise<void> {
     const tokenHash = hashToken(dto.token);
-    const user = await this.usersService.findByPasswordResetTokenHash(tokenHash);
+    const user =
+      await this.usersService.findByPasswordResetTokenHash(tokenHash);
 
     if (
       !user ||
       !user.passwordResetTokenExpiresAt ||
       user.passwordResetTokenExpiresAt.getTime() < Date.now()
     ) {
-      throw new BadRequestException(this.t('auth.invitation_invalid_or_expired'));
+      throw new BadRequestException(
+        this.t('auth.invitation_invalid_or_expired'),
+      );
     }
 
     const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS);
@@ -190,7 +204,9 @@ export class AuthService {
       return;
     }
 
-    const { rawToken } = await this.usersService.createPasswordResetToken(user.id);
+    const { rawToken } = await this.usersService.createPasswordResetToken(
+      user.id,
+    );
 
     try {
       await this.mailService.sendPasswordResetEmail(
@@ -205,12 +221,20 @@ export class AuthService {
     }
   }
 
-  private async issueTokenPair(userId: string, meta: RequestMetadata): Promise<IssuedTokenPair> {
+  private async issueTokenPair(
+    userId: string,
+    meta: RequestMetadata,
+  ): Promise<IssuedTokenPair> {
     const accessToken = this.jwtService.sign({ sub: userId });
 
     const rawRefreshToken = generateRawToken(48);
-    const refreshExpiresIn = this.configService.get<string>('JWT_REFRESH_EXPIRES_IN', '30d');
-    const expiresAt = new Date(Date.now() + parseDurationToMs(refreshExpiresIn));
+    const refreshExpiresIn = this.configService.get<string>(
+      'JWT_REFRESH_EXPIRES_IN',
+      '30d',
+    );
+    const expiresAt = new Date(
+      Date.now() + parseDurationToMs(refreshExpiresIn),
+    );
 
     const refreshTokenRow = this.refreshTokenRepository.create({
       userId,

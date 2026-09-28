@@ -33,7 +33,9 @@ export class Role {
   @Column({ type: 'enum', enum: RoleType, default: RoleType.CUSTOM })
   type: RoleType;
 
-  @ManyToMany(() => Permission, (permission) => permission.roles, { eager: false })
+  @ManyToMany(() => Permission, (permission) => permission.roles, {
+    eager: false,
+  })
   @JoinTable({
     name: 'role_permissions',
     joinColumn: { name: 'roleId', referencedColumnName: 'id' },

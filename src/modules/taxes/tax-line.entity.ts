@@ -1,9 +1,16 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Tax } from './tax.entity';
 
 const decimalTransformer = {
   to: (value?: number) => value,
-  from: (value?: string) => (value === undefined || value === null ? value : parseFloat(value)),
+  from: (value?: string) =>
+    value === undefined || value === null ? value : parseFloat(value),
 };
 
 @Entity('tax_lines')
@@ -21,7 +28,12 @@ export class TaxLine {
   @Column({ type: 'varchar', length: 100, nullable: true })
   label: string | null;
 
-  @Column({ type: 'decimal', precision: 6, scale: 2, transformer: decimalTransformer })
+  @Column({
+    type: 'decimal',
+    precision: 6,
+    scale: 2,
+    transformer: decimalTransformer,
+  })
   rate: number;
 
   /** Preserves the order tax lines were entered in (e.g. "100% + 15%" reads

@@ -1,0 +1,10 @@
+{
+  "not_found": "Journal entry not found.",
+  "not_editable": "This journal entry is posted and can no longer be edited or deleted.",
+  "already_posted": "This journal entry is already posted.",
+  "not_posted": "Only a posted journal entry can be reversed.",
+  "already_reversed": "This journal entry has already been reversed.",
+  "line_needs_one_side": "Each line must have either a debit or a credit amount, not both and not neither.",
+  "not_balanced": "Total debits must equal total credits before posting.",
+  "account_inactive": "One of the selected accounts is inactive."
+}

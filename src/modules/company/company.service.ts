@@ -30,12 +30,22 @@ export class CompanyService {
     return this.companyRepository.save(company);
   }
 
-  async saveLogo(buffer: Buffer, originalName: string, contentType: string): Promise<Company> {
+  async saveLogo(
+    buffer: Buffer,
+    originalName: string,
+    contentType: string,
+  ): Promise<Company> {
     const company = await this.findOrCreate();
 
-    const ext = originalName.includes('.') ? originalName.split('.').pop() : 'png';
+    const ext = originalName.includes('.')
+      ? originalName.split('.').pop()
+      : 'png';
     const path = `company/${randomUUID()}.${ext}`;
-    const downloadUrl = await this.storageService.uploadFile(buffer, path, contentType);
+    const downloadUrl = await this.storageService.uploadFile(
+      buffer,
+      path,
+      contentType,
+    );
 
     const previousLogoUrl = company.logoUrl;
     company.logoUrl = downloadUrl;

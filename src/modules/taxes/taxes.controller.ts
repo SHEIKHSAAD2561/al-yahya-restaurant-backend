@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { TaxesService } from './taxes.service';
 import { CreateTaxDto } from './dto/create-tax.dto';
 import { UpdateTaxDto } from './dto/update-tax.dto';
@@ -35,7 +43,10 @@ export class TaxesController {
 
   @Patch(':id/status')
   @RequirePermissions('settings.financial_settings')
-  updateStatus(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateTaxStatusDto) {
+  updateStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateTaxStatusDto,
+  ) {
     return this.taxesService.updateStatus(id, dto.isActive);
   }
 }

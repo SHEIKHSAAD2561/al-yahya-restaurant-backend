@@ -9,7 +9,9 @@ const UNIT_TO_MS: Record<string, number> = {
 export function parseDurationToMs(value: string): number {
   const match = /^(\d+)([smhd])$/.exec(value.trim());
   if (!match) {
-    throw new Error(`Invalid duration format: "${value}" (expected e.g. "15m", "30d")`);
+    throw new Error(
+      `Invalid duration format: "${value}" (expected e.g. "15m", "30d")`,
+    );
   }
   const [, amount, unit] = match;
   return Number(amount) * UNIT_TO_MS[unit];

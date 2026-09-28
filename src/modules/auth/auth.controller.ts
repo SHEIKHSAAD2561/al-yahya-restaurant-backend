@@ -44,7 +44,10 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout(@CurrentUser() user: RequestUser, @Body() dto: Partial<RefreshDto>) {
+  async logout(
+    @CurrentUser() user: RequestUser,
+    @Body() dto: Partial<RefreshDto>,
+  ) {
     await this.authService.logout(user.id, dto.refreshToken);
     return { success: true };
   }

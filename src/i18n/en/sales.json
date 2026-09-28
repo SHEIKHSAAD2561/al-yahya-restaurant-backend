@@ -1,0 +1,15 @@
+{
+  "not_found": "Sale not found.",
+  "parked_not_found": "Parked sale not found.",
+  "duplicate_line": "The same product is in the cart twice.",
+  "not_sellable": "This product isn't sellable",
+  "no_price_at_location": "This product has no price set for this location",
+  "insufficient_stock": "Not enough stock available for",
+  "insufficient_payment": "The amount paid is less than the total due.",
+  "payment_method_not_assigned": "That payment method isn't assigned to this register.",
+  "customer_not_found": "The selected customer doesn't exist.",
+  "wholesale_not_allowed": "You don't have permission to sell at wholesale price.",
+  "price_edit_not_allowed": "You don't have permission to edit prices or add a discount.",
+  "post_payment_not_allowed": "You don't have permission to check out with Pay Later.",
+  "post_payment_requires_customer": "A customer must be selected to check out with Pay Later."
+}
